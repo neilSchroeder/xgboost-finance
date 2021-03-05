@@ -1,4 +1,4 @@
-#!/usr/bin/eng python3
+#!/usr/bin/env python3
 """
 Main control script
 
@@ -21,14 +21,16 @@ def xgfinance(ticker, extract):
 
     #run the data extraction scripts
     if extract:
+        #        try:
         scraper.get_data()
+        #except:
+        #    print("[ERROR] something went wrong with the extraction")
 
     #send everything over to the model builder and train
 
     #run the validation
 
-try:
-    if __name__ == '__main__':
-        xgfinance()
-except:
-    print("[ERROR] something went wrong in main")
+if __name__ == '__main__':
+    xgfinance()
+#except:
+#    print("[ERROR] something went wrong in main")
