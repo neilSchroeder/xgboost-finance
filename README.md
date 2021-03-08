@@ -24,6 +24,6 @@ Under no circumstances should anyone feel that this algorithm is successful with
 ## Usage
 1) obtain the data  
 `./python/xgfinance.py --extract`
-2) plot the data 
+2) plot the data   
 `./python/xgfinance.py -t [TICKER] --candle`
 
