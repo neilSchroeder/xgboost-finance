@@ -22,7 +22,7 @@ def get_sAndP500tickers():
     df.to_csv('dat/s_and_p_500_tickers.tsv', sep='\t', columns=['Symbol'])
 
 def get_tickerData():
-    """uses pandas and iexfinance to get historical daily data for the s&p500"""
+    """uses pandas and yahoo to get historical daily data for the s&p500"""
     #get tickers
     if not os.path.exists('./dat/'):
         os.system('mkdir ./dat/')
@@ -32,12 +32,24 @@ def get_tickerData():
     end = datetime.date.today() - datetime.timedelta(days=1)
 
     #yahoo is not kind about this data, so I'm going to find a workaround
-    
+     
     for ticker in tickers['Symbol'].values:
         print(ticker)
         data=pdr.get_data_yahoo(ticker, start=start, end=end)
-        print(data.head())
         data.to_csv('dat/'+ticker+'.csv')
+
+def get_adjClose():
+    """uses pandas to join all the adjusted closes and make the dataset we will train our model on"""
+    print("[INFO] compiling adjusted close")
+    tickers = pd.read_csv('dat/s_and_p_500_tickers.tsv', delimiter='\t', index_col=[0])
+    adj_close = pd.DataFrame()
+    for ticker in tickers['Symbol'].values:
+        if os.path.exists('./dat/'+ticker+'.csv'):
+            df = pd.read_csv('./dat/'+ticker+'.csv', index_col=['Date'], usecols=['Date','Adj Close'])
+            adj_close[ticker+" Adj Close"] = df['Adj Close']
+
+    adj_close.to_csv('dat/sp500_adj_close.csv')
+
 
 
 def get_data():
@@ -47,4 +59,5 @@ def get_data():
         get_sAndP500tickers()
 
     get_tickerData()
+    get_adjClose()
 

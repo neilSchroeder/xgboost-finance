@@ -22,10 +22,10 @@ def xgfinance(ticker, extract, candle, corr):
 
     #run the data extraction scripts
     if extract:
-        try:
-            scraper.get_data()
-        except:
-            print("[ERROR] something went wrong with the extraction")
+        #try:
+        scraper.get_data()
+        #except:
+        #    print("[ERROR] something went wrong with the extraction")
 
     #check for plotting
     if candle:
@@ -35,7 +35,7 @@ def xgfinance(ticker, extract, candle, corr):
          #   print("[ERROR] plotter.plot_ticker({}) failed to run".format(ticker))
     
     if corr:
-        plotter.plot_corr(ticker)
+        plotter.plot_corr()
 
     #send everything over to the model builder and train
 

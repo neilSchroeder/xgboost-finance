@@ -6,7 +6,7 @@ import pandas as pd
 import os
 
 def plot_ticker(ticker):
-
+    """make a candle stick plot for a given ticker"""
     #open the csv for the indicated ticker
     df = pd.DataFrame()
     try:
@@ -26,13 +26,11 @@ def plot_ticker(ticker):
     mpf.plot(ohlc, type='candle',volume=True,savefig='./plots/'+ticker+'_candleWithVolume.png')
 
 
-def plot_correlations(ticker):
-    
-    #open the csv for the indicated ticker
-    df = pd.DataFrame()
-    try:
-        df = pd.read_csv('./dat/'+ticker+'.csv')
-    except:
-        print("[ERROR] could not open data for {}.".format(ticker))
-        return
+def plot_corr():
+    """make a correlation plot of the adj close values"""
+    adj_close = pd.read_csv('./dat/sp500_adj_close.csv')
+    correlation = adj_close.corr(method='pearson')
+    plt.matshow(correlation)
+    plt.show()
+
 
