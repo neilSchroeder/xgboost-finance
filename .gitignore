@@ -1,3 +1,5 @@
 dat/*.csv
 dat/*.tsv
-python/__pychache__/*
+python/__pycache__/*.pyc
+python/__pycache__
+plots/

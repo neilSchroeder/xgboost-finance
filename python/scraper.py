@@ -17,11 +17,15 @@ def get_sAndP500tickers():
     """uses pandas to scrape the s&p500 wiki for the ticker list"""
     table = pd.read_html('http://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
     df = table[0]
+    if not os.path.exists('./dat/'):
+        os.system('mkdir ./dat/')
     df.to_csv('dat/s_and_p_500_tickers.tsv', sep='\t', columns=['Symbol'])
 
 def get_tickerData():
     """uses pandas and iexfinance to get historical daily data for the s&p500"""
     #get tickers
+    if not os.path.exists('./dat/'):
+        os.system('mkdir ./dat/')
     tickers = pd.read_csv('dat/s_and_p_500_tickers.tsv', delimiter='\t', index_col=[0])
 
     start = datetime.date(2010,1,1)

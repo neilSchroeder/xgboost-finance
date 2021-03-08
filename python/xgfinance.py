@@ -10,21 +10,32 @@ import pandas as pd
 import numpy as np
 
 import scraper
+import plotter
 
 @click.command()
 @click.option('-t','--ticker', type=str, default='', required=False)
 @click.option('--extract', default=False, is_flag=True, required=False)
-def xgfinance(ticker, extract):
+@click.option('--candle', default=False, is_flag=True, required=False)
+@click.option('--corr', default=False, is_flag=True, required=False)
+def xgfinance(ticker, extract, candle, corr):
     """Run the xgboost finance package."""    
-
-    #do some option management (if necessary)
 
     #run the data extraction scripts
     if extract:
-        #        try:
-        scraper.get_data()
+        try:
+            scraper.get_data()
+        except:
+            print("[ERROR] something went wrong with the extraction")
+
+    #check for plotting
+    if candle:
+        # try:
+        plotter.plot_ticker(ticker)
         #except:
-        #    print("[ERROR] something went wrong with the extraction")
+         #   print("[ERROR] plotter.plot_ticker({}) failed to run".format(ticker))
+    
+    if corr:
+        plotter.plot_corr(ticker)
 
     #send everything over to the model builder and train
 
@@ -32,5 +43,3 @@ def xgfinance(ticker, extract):
 
 if __name__ == '__main__':
     xgfinance()
-#except:
-#    print("[ERROR] something went wrong in main")

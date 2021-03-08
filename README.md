@@ -8,7 +8,7 @@ Under no circumstances should anyone feel that this algorithm is successful with
 ## Outline
 1) Obtain the data
     - We will scrape the wiki for s&p 500 to get the tickers
-    - We'll then pull the data for all the tickers from iexfinance
+    - We'll then pull the data for all the tickers from yahoo
     - With data in hand we'll do a bit of visualization and maybe some correlation checks
 2) Clean the data
 3) Build our target
@@ -20,3 +20,10 @@ Under no circumstances should anyone feel that this algorithm is successful with
 4) split and shape the data for train and test
 5) train our model in xgboost
 6) validate the model using shap (https://github.com/slundberg/shap)
+
+## Usage
+1) obtain the data  
+`./python/xgfinance.py --extract`
+2) plot the data 
+`./python/xgfinance.py -t [TICKER] --candle`
+
