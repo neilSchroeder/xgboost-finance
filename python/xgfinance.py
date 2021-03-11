@@ -17,7 +17,8 @@ import plotter
 @click.option('--extract', default=False, is_flag=True, required=False)
 @click.option('--candle', default=False, is_flag=True, required=False)
 @click.option('--corr', default=False, is_flag=True, required=False)
-def xgfinance(ticker, extract, candle, corr):
+@click.option('--classify', default=False, is_flag=True, required=False)
+def xgfinance(ticker, extract, candle, corr, classify):
     """Run the xgboost finance package."""    
 
     #run the data extraction scripts
@@ -36,6 +37,9 @@ def xgfinance(ticker, extract, candle, corr):
     
     if corr:
         plotter.plot_corr()
+
+    if classify:
+        classifier.analyze(ticker)
 
     #send everything over to the model builder and train
 

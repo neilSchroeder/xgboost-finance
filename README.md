@@ -26,4 +26,7 @@ Under no circumstances should anyone feel that this algorithm is successful with
 `./python/xgfinance.py --extract`
 2) plot the data   
 `./python/xgfinance.py -t [TICKER] --candle`
+`./python/xgfinance.py --corr`  
+3) build a model
+ 
 
