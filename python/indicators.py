@@ -42,4 +42,10 @@ def rsi(data, days):
     return np.array([100 - (100 / ( 1 + ((avg_up_diff[i-1]*(days-1)+avg_up_diff[i])/(avg_down_diff[i-1]*(days-1)+avg_down_diff[i])))) if i >= 14 else 100 - (100 / ( 1 + (avg_up_diff[i]/avg_down_diff[i]))) for i in range(len(avg_up_diff))])
     
 
+def pct_diff(data, days):
+    """calculates the percent difference between a day and x days into the future"""
+    return [100*(data[i+days] - data[i])/data[i] if i < len(data)-days else 100*(data[-1] - data[i])/data[i] for i in range(len(data))]
     
+def build_target(data, cut):
+    """returns the buy/sell/hold classification based on the x day percent diff and a manually set cut (I'll use 5% for now)"""
+    return [np.sign(data[i]) if abs(data[i]) >= cut else 0 for i in range(len(data))]
