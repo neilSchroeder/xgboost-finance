@@ -14,9 +14,8 @@ Under no circumstances should anyone feel that this algorithm is successful with
 3) Build our target
     - Build MACD (12, 26, 9)
     - Build RSE (14)
-    - Build StochasticsFast (14, 3)
     - Build 5 day % diff
-    - Take a look at these visually and see if it needs some review, if not these will be combined in some way to make our target
+    - Target (buy/sell/hold : 1/-1/0) will be defined based on a 3% difference over a 5 day period
 4) split and shape the data for train and test
 5) train our model in xgboost
 6) validate the model using shap (https://github.com/slundberg/shap)

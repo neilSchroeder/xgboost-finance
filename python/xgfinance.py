@@ -11,6 +11,7 @@ import numpy as np
 
 import scraper
 import plotter
+import classifier
 
 @click.command()
 @click.option('-t','--ticker', type=str, default='', required=False)

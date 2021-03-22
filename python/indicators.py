@@ -10,7 +10,7 @@ def get_ema(data, days):
     z[:days] = z[days] #ensure the ema has the same length as the data
     return z
 
-def macd(data, fast, slow, signal)
+def macd(data, fast, slow, signal):
     """calculates the macd for a ticker 
     fast is the exponential moving average in days for the fast signal
     slow is the exponential moving average in days for the slow signal
