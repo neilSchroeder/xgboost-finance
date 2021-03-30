@@ -34,12 +34,14 @@ def rsi(data, days):
     up_diff = np.multiply(diff,up_vals)
     down_diff = np.multiply(diff,down_vals)
 
+
     avg_up_diff = np.convolve(up_diff, np.ones(days))[:len(up_diff)] / days
     avg_up_diff[:days] = avg_up_diff[days]
-    avg_down_diff = np.convolve(down_diff, np.ones(days))[:len(down_diff)] / days
+    avg_down_diff = np.convolve(down_diff, -1*np.ones(days))[:len(down_diff)] / days
     avg_down_diff[:days] = avg_down_diff[days]
 
-    return np.array([100 - (100 / ( 1 + ((avg_up_diff[i-1]*(days-1)+avg_up_diff[i])/(avg_down_diff[i-1]*(days-1)+avg_down_diff[i])))) if i >= 14 else 100 - (100 / ( 1 + (avg_up_diff[i]/avg_down_diff[i]))) for i in range(len(avg_up_diff))])
+    ret = np.array([100 - (100 / ( 1 + ((avg_up_diff[i-1]*(days-1)+avg_up_diff[i])/(avg_down_diff[i-1]*(days-1)+avg_down_diff[i])))) if i >= 14 else 100 - (100 / ( 1 + (avg_up_diff[i]/avg_down_diff[i]))) for i in range(len(avg_up_diff))])
+    return ret
     
 
 def pct_diff(data, days):
@@ -48,4 +50,8 @@ def pct_diff(data, days):
     
 def build_target(data, cut):
     """returns the buy/sell/hold classification based on the x day percent diff and a manually set cut (I'll use 5% for now)"""
-    return [np.sign(data[i]) if abs(data[i]) >= cut else 0 for i in range(len(data))]
+    ret = np.array([int(np.sign(data[i])) if abs(data[i]) >= cut else 0 for i in range(len(data))])
+    print("there are {} buy days".format(np.sum(ret == 1)))
+    print("there are {} sell days".format(np.sum(ret == -1)))
+    print("there are {} hold days".format(np.sum(ret == 0)))
+    return ret

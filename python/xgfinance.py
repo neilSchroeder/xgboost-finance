@@ -11,7 +11,7 @@ import numpy as np
 
 import scraper
 import plotter
-import classifier
+import booster
 
 @click.command()
 @click.option('-t','--ticker', type=str, default='', required=False)
@@ -19,7 +19,9 @@ import classifier
 @click.option('--candle', default=False, is_flag=True, required=False)
 @click.option('--corr', default=False, is_flag=True, required=False)
 @click.option('--classify', default=False, is_flag=True, required=False)
-def xgfinance(ticker, extract, candle, corr, classify):
+@click.option('--split', default="traditional", required=False)
+@click.option('--regress', default=False, is_flag=True, required=False)
+def xgfinance(ticker, extract, candle, corr, classify, regress, split):
     """Run the xgboost finance package."""    
 
     #run the data extraction scripts
@@ -40,7 +42,9 @@ def xgfinance(ticker, extract, candle, corr, classify):
         plotter.plot_corr()
 
     if classify:
-        classifier.analyze(ticker)
+        booster.classify(ticker, split)
+    if regress:
+        booster.regress(ticker, split)
 
     #send everything over to the model builder and train
 
