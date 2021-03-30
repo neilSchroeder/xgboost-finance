@@ -35,10 +35,10 @@ Under no circumstances should anyone feel that this algorithm is successful with
 `./python/xgfinance.py -t [TICKER] --classify --split=[SPLIT_METHOD]`
  
 ## To Investigate
-How to properly account for time dependence of data?
+1) How to properly account for time dependence of data?
    - Should we split using Time Series?
    - Are there options for XGBoost to look at past data?
    - Should additional columns with past info be included? This strikes me as being a very plausible option  
-Should additional metrics be included?
+2) Should additional metrics be included?
     - This will likely be answered by either testing them directly or by checking shap outputs, or both. 
 
