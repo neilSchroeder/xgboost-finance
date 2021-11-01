@@ -9,19 +9,16 @@ import click
 import pandas as pd
 import numpy as np
 
-import scraper
-import plotter
-import booster
+import python.scraper as scraper
+import python.plotter as plotter
+import python.booster as booster
 
 @click.command()
 @click.option('-t','--ticker', type=str, default='', required=False)
 @click.option('--extract', default=False, is_flag=True, required=False)
 @click.option('--candle', default=False, is_flag=True, required=False)
 @click.option('--corr', default=False, is_flag=True, required=False)
-@click.option('--classify', default=False, is_flag=True, required=False)
-@click.option('--split', default="traditional", required=False)
-@click.option('--regress', default=False, is_flag=True, required=False)
-def xgfinance(ticker, extract, candle, corr, classify, regress, split):
+def xgfinance(ticker, extract, candle, corr):
     """Run the xgboost finance package."""    
 
     #run the data extraction scripts
@@ -41,14 +38,7 @@ def xgfinance(ticker, extract, candle, corr, classify, regress, split):
     if corr:
         plotter.plot_corr()
 
-    if classify:
-        booster.classify(ticker, split)
-    if regress:
-        booster.regress(ticker, split)
-
-    #send everything over to the model builder and train
-
-    #run the validation
+    booster.regress(ticker)
 
 if __name__ == '__main__':
     xgfinance()

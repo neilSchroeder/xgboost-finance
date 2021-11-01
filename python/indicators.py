@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 def get_ema(data, days):
     """calculates the exponenetial moving average for a set of data over a period given by days"""
     weights = np.exp(np.linspace(-1,0.,days))
@@ -9,6 +10,7 @@ def get_ema(data, days):
     z = np.convolve(data,weights)[:len(data)] #fold the weights into the data to calculate the ema
     z[:days] = z[days] #ensure the ema has the same length as the data
     return z
+
 
 def macd(data, fast, slow, signal):
     """calculates the macd for a ticker 
@@ -22,6 +24,7 @@ def macd(data, fast, slow, signal):
 
     return ema_signal
 
+
 def rsi(data, days):
     """calculates the relative strength index for a ticker over a period of days"""
     
@@ -33,7 +36,6 @@ def rsi(data, days):
 
     up_diff = np.multiply(diff,up_vals)
     down_diff = np.multiply(diff,down_vals)
-
 
     avg_up_diff = np.convolve(up_diff, np.ones(days))[:len(up_diff)] / days
     avg_up_diff[:days] = avg_up_diff[days]
@@ -47,7 +49,8 @@ def rsi(data, days):
 def pct_diff(data, days):
     """calculates the percent difference between a day and x days into the future"""
     return [100*(data[i+days] - data[i])/data[i] if i < len(data)-days else 100*(data[-1] - data[i])/data[i] for i in range(len(data))]
-    
+
+
 def build_target(data, cut):
     """returns the buy/sell/hold classification based on the x day percent diff and a manually set cut (I'll use 5% for now)"""
     ret = np.array([int(np.sign(data[i])) if abs(data[i]) >= cut else 0 for i in range(len(data))])
