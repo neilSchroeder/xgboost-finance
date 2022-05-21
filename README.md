@@ -23,7 +23,7 @@ Under no circumstances should anyone feel that this algorithm is successful with
     - The model doesn't look even remotely linear (see plots/tsne_decomp_MMM.png)
 5) train our model in xgboost
     - Get an initial estimate of the model from the model hyperparameters
-        - later we do hyperparameter tuning using bayesian optimization
+        - later we do hyperparameter tuning using bayesian optimization using https://github.com/fmfn/BayesianOptimization
     - train the model
         - I've chosen `reg:squaredlogerror` as the loss function since the target is compressed from 0 to 1. 
     - predict the outcomes
