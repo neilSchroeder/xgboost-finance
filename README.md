@@ -15,15 +15,23 @@ Under no circumstances should anyone feel that this algorithm is successful with
     - Build MACD (12, 26, 9)
     - Build RSE (14)
     - Build X day % diff
-    - Target (buy/sell/hold : 1/-1/0) will be defined based on a 3% difference over a 5 day period
+    - Target (hard buy/soft buy/hold/soft sell/hard sell : -5, -1, 0, 1, 5) will be defined based on a X% difference over a N day period
 4) split and shape the data for train and test using TimeSeriesSplit
     - Tried splitting as Time Series with lackluster result
     - Tried splitting using train_test_split with improved performace
+5) break down the model using T-SNE Decomposition to see if the models can be linear
+    - The model doesn't look even remotely linear (see plots/tsne_decomp_MMM.png)
 5) train our model in xgboost
-    - Model (classifier) seems to perform with mixed results when using Time Series split and buy/sell/hold target. Accuracy ranges from ~20% to ~75%.
-    - Model (classifier) seems to perform better when using a tranditional 80:20 split with our buy/sell/hold target. Accuracy sits around ~83%.
-    - Model (regressor) was built to target the X day % diff. Performance is varied, but overall the method seems to have a RMS Error of about 1 - 2. This RMS Error improves as X increases.
-6) validate the model using shap (https://github.com/slundberg/shap)
+    - Get an initial estimate of the model from the model hyperparameters
+        - later we do hyperparameter tuning using bayesian optimization
+    - train the model
+        - I've chosen `reg:squaredlogerror` as the loss function since the target is compressed from 0 to 1. 
+    - predict the outcomes
+    - evaluate performance:
+        - Check the fake rates (sell when you should buy or buy when you should sell)
+        - mean squared error
+        - reduced chi squared (this isn't a great metric, but it'll do for now)
+    - plot the different categories and the category label differences
 
 ## Usage
 1) obtain the data  

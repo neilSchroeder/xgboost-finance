@@ -121,7 +121,6 @@ def regress(args):
     params = {"objective":'reg:squaredlogerror', 
                 "eval_metric":'rmse',
                 'colsample_bytree': 0.4582463307002723,
-                #'gamma': 9.85616591125086, 
                 'learning_rate': 0.1205329684150237, 
                 'max_depth': 5, 
                 'min_child_weight': 4.837582653206183, 
@@ -137,14 +136,13 @@ def regress(args):
             params = {"objective":'reg:squaredlogerror', 
                 "eval_metric":'rmse',
                 'subsample': 0.5,
-                'gamma': 0.2,
                 'colsample_bytree': 0.8,
                 'learning_rate': 0.3, 
                 'max_depth': 8, 
                 'min_child_weight': 0.9,
                 'num_boost_round': 53,
                 }
-            cv_results=xgb.cv(dtrain=dm, params=params, nfold=10, num_boost_round=int(num_boost_round), early_stopping_rounds=10, metrics='rmse', as_pandas=True)
+            cv_results=xgb.cv(dtrain=dm, params=params, nfold=10, early_stopping_rounds=10, metrics='rmse', as_pandas=True)
             # will try to MAXIMIZE this function, but we want to get close to 0
             # make result negative to maximize
             return -cv_results['test-rmse-mean'].min() 
