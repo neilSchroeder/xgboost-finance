@@ -26,7 +26,7 @@ def main():
                         help="plot candle plots")
     parser.add_argument("--corr", default=False, action="store_true",
                         help="plot correlations")
-    parser.add_argument("--split", default=0.2,
+    parser.add_argument("--split", default=0.2, type=float,
                         help="fraction of data to be used to test the model")
     parser.add_argument("--tsne", default=False, action="store_true",
                         help="visualize the linearity of the data through T-SNE decomposition")
@@ -34,6 +34,8 @@ def main():
                         help="Run hyper-parameter optization, warning: this can take a long time")
     parser.add_argument("--ratio", default=False, action="store_true", 
                         help="plot ratio plots for the 5 categories")
+    parser.add_argument("--walk", default=False, action="store_true",
+                        help="activates the walk-forward method of evaluating the model")
     args = parser.parse_args()
 
     # run the data extraction scripts

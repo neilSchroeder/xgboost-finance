@@ -16,12 +16,17 @@ Under no circumstances should anyone feel that this algorithm is successful with
     - Build RSE (14)
     - Build X day % diff
     - Target (hard buy/soft buy/hold/soft sell/hard sell : -5, -1, 0, 1, 5) will be defined based on a X% difference over a N day period
-4) split and shape the data for train and test using TimeSeriesSplit
-    - Tried splitting as Time Series with lackluster result
-    - Tried splitting using train_test_split with improved performace
-5) break down the model using T-SNE Decomposition to see if the models can be linear
+4) Build a 3 week (21 day) sliding window 
+    - XGBoost does not really do transformers like LSTM or RNN, so we need to have some input about the past
+    - The way we do this is by creating new labels which are past information of each label
+    - This significantly improves our forecasting ability, but isn't as powerful as a transformer
+5) Split the dataset using `SKLearn train_test_split`.
+    - Splitting time series data is an odd beast to tackle, but with the sliding window we can sort of avoid issues with this approach.
+6) Break down the model using T-SNE Decomposition to see if the model can be described nicely
+    - For highly dimensional datasets it's more useful to break down the dataset into ~50 components using PCA decomposition
+    - After doing PCA decomposition, perform T-SNE decomposition on the PCA variables.
     - The model doesn't look even remotely linear (see plots/tsne_decomp_MMM.png)
-5) train our model in xgboost
+7) Train our model in xgboost
     - Get an initial estimate of the model from the model hyperparameters
         - later we do hyperparameter tuning using bayesian optimization using https://github.com/fmfn/BayesianOptimization
     - train the model
@@ -30,8 +35,14 @@ Under no circumstances should anyone feel that this algorithm is successful with
     - evaluate performance:
         - Check the fake rates (sell when you should buy or buy when you should sell)
         - mean squared error
-        - reduced chi squared (this isn't a great metric, but it'll do for now)
-    - plot the different categories and the category label differences
+    - plot the different categories and the category label differences (fake rate)
+8) Bayesian hyperparameter tuning using `BayesianOptimization`
+    - There are a couple different metrics you can aim for in this method
+        - Area Under Curve: best performance was about 60%
+        - Mean Squared Error: name says it all
+        - Log Loss: an approach using entropy
+    - XGBoost uses a number of parameters that are useful to optimize:
+        - 
 
 ## Usage
 1) obtain the data  
@@ -39,9 +50,7 @@ Under no circumstances should anyone feel that this algorithm is successful with
 2) plot the data   
 `./python/xgfinance.py -t [TICKER] --candle`
 `./python/xgfinance.py --corr`  
-3) build a model  
-`./python/xgfinance.py -t [TICKER] --classify --split=[SPLIT_METHOD]`
+3) build a model and check the fake rate
+`./python/xgfinance.py -t [TICKER] --ratio`
  
-## To Investigate
-1) How can we outperform the "time-in" method?
 
